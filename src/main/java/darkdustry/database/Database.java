@@ -7,6 +7,7 @@ import darkdustry.database.models.*;
 import dev.morphia.*;
 import dev.morphia.mapping.Mapper;
 import dev.morphia.query.filters.Filters;
+import dev.morphia.query.Sort.descending;
 import dev.morphia.query.updates.UpdateOperators;
 import mindustry.gen.Player;
 
@@ -94,12 +95,17 @@ public class Database {
     // region ID
 
     public static int generateNextID(String key) {
-        Query<Player> query = datastore.find(Player.class)
-                                .order("-_id")
-                                .limit(1);
-        List<Player> players = query.asList();
-        if (!players.isEmpty()) {
-            return players.get(0).getId() + 1;
+        var class_ = null;
+        if (key == "players") {
+            class_ = PlayerData.class;
+        } else if (key == "bans") {
+            class_ = Ban.class;
+        } // TODO: stinks!
+        Query<var> query = datastore.find(class_)
+                                .sort(descending("_id"));
+        List<var> data = query.asList(new FindOptions().limit(1));
+        if (!data.isEmpty()) {
+            return data.get(0).id + 1;
         } else {
             return 0;
         }
