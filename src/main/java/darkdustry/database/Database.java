@@ -96,16 +96,18 @@ public class Database {
     // region ID
 
     public static int generateNextID(String key) {
+        Class<T> class_;
         if (key == "players") {
-            var class_ = PlayerData.class;
+            class_ = PlayerData.class;
         } else if (key == "bans") {
-            var class_ = Ban.class;
+            class_ = Ban.class;
         } // TODO: stinks!
         Query<?> query = datastore.find(class_)
                                 .sort(Sort.descending("_id"));
         List<?> data = query.asList(new FindOptions().limit(1));
         if (!data.isEmpty()) {
-            return data.get(0).id + 1;
+            Object obj_ = class_.cast(data.get(0));
+            return obj.id + 1;
         } else {
             return 0;
         }
