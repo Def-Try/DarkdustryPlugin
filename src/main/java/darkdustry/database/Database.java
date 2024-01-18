@@ -6,6 +6,7 @@ import com.mongodb.client.model.ReturnDocument;
 import darkdustry.database.models.*;
 import dev.morphia.*;
 import dev.morphia.mapping.Mapper;
+import dev.morphia.query.*;
 import dev.morphia.query.filters.Filters;
 import dev.morphia.query.Sort;
 import dev.morphia.query.updates.UpdateOperators;
@@ -95,11 +96,10 @@ public class Database {
     // region ID
 
     public static int generateNextID(String key) {
-        var class_ = null;
         if (key == "players") {
-            class_ = PlayerData.class;
+            var class_ = PlayerData.class;
         } else if (key == "bans") {
-            class_ = Ban.class;
+            var class_ = Ban.class;
         } // TODO: stinks!
         Query<?> query = datastore.find(class_)
                                 .sort(Sort.descending("_id"));
