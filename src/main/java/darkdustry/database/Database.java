@@ -7,7 +7,7 @@ import darkdustry.database.models.*;
 import dev.morphia.*;
 import dev.morphia.mapping.Mapper;
 import dev.morphia.query.filters.Filters;
-import dev.morphia.query.Sort.descending;
+import dev.morphia.query.Sort;
 import dev.morphia.query.updates.UpdateOperators;
 import mindustry.gen.Player;
 
@@ -102,7 +102,7 @@ public class Database {
             class_ = Ban.class;
         } // TODO: stinks!
         Query<?> query = datastore.find(class_)
-                                .sort(descending("_id"));
+                                .sort(Sort.descending("_id"));
         List<?> data = query.asList(new FindOptions().limit(1));
         if (!data.isEmpty()) {
             return data.get(0).id + 1;
