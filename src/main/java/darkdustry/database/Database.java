@@ -101,9 +101,9 @@ public class Database {
         } else if (key == "bans") {
             class_ = Ban.class;
         } // TODO: stinks!
-        Query<var> query = datastore.find(class_)
+        Query<?> query = datastore.find(class_)
                                 .sort(descending("_id"));
-        List<var> data = query.asList(new FindOptions().limit(1));
+        List<?> data = query.asList(new FindOptions().limit(1));
         if (!data.isEmpty()) {
             return data.get(0).id + 1;
         } else {
