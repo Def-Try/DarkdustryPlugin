@@ -104,9 +104,9 @@ public class Database {
         } // TODO: stinks!
         Query<?> query = datastore.find(class_)
                                 .sort(Sort.descending("_id"));
-        List<?> data = query.asList(new FindOptions().limit(1));
-        if (!data.isEmpty()) {
-            Object obj_ = class_.cast(data.get(0));
+        Object data = query.first(new FindOptions().limit(1));
+        if (data) {
+            Object obj = class_.cast(data);
             return obj.id + 1;
         } else {
             return 0;
